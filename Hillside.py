@@ -13,6 +13,7 @@ import matplotlib
 import matplotlib.pyplot
 import matplotlib.animation 
 import os
+import slope
 #import pathlib
 #import csv
 #import tkinter
@@ -22,9 +23,13 @@ import os
 
 # Variables required
 
-DEM = []
+dem = []
+demslope=[]
 row = 0
 column = 0
+cell_count = 0
+r = 0
+c = 0
 
 # Operating system info
 # sys = os.name
@@ -52,13 +57,30 @@ for Line in File.readlines():
         rowlist.append(int(value))
     column += 1
     row = len(rowlist)
-    DEM.append(rowlist)
+    cell_count = row * column
+    dem.append(rowlist)
 File.close()    # close files
 
-# Display the DEM
+# Calculate Slope of DEM
 
+for line in dem:
+#    print(line)
+    for inst in line:  # Repeat for number of cells in DEM
+#        print(inst)
+#        print('r=', r)
+#        print('c=', c)
+        if r > 0 and r < row-1 and c < column-1 and c > 0:
+#            print('ctr=', dem[r][c])
+            demslope.append(slope.Cell(dem[r-1][c-1], dem[r-1][c], dem[r-1][c+1], dem[r][c-1], inst, dem[r][c+1], dem[r+1][c-1], dem[r+1][c], dem[r+1][c+1]))    # Pass 3x3 grid about cell to calculate slope
+        c += 1
+    r += 1
+    c = 0
+
+# Display the DEM
+'''
 matplotlib.pyplot.xlim(0, row) # Set the extent of the Y axis
 matplotlib.pyplot.ylim(0, column) # Set the extent of the X axis
 display = matplotlib.pyplot.imshow(DEM)
 matplotlib.pyplot.show(display)
+'''
 print('end')
