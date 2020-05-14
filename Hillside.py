@@ -89,11 +89,15 @@ else:
 
 File = open(infile, "r")    # Open file
 
-# Create a nested List of DEM
+#
+# Read in each line one at a time from the input file and extract each value from it and add to
+# the end of a list. Append each new row to a list array to create a DEM. Release the file on
+# completion
+# 
 
 for Line in File.readlines():   # Repeat for each line in file
     rowlist = []    # Create blank list
-    for value in Line.split():    # Repeat foe each value in line
+    for value in Line.split():    # Repeat for each value in line
         rowlist.append(int(value))  # Append current value to list
     row += 1 # Increment the count of rows in DEM
     column = len(rowlist)  # Return the number of cells in x axis
@@ -101,7 +105,16 @@ for Line in File.readlines():   # Repeat for each line in file
     dem.append(rowlist) # Append the list to the new DEM
 File.close()    # close files
 
+#
 # Calculate Slope of DEM
+# To calculate slpoe of a cell the surrounding 8 cells need to be utilised.
+# The boundary cells can not be utilised as they are mising some of the 8 required.
+# Therefore the boundary cells are ignored and set to zero in the output file
+# The 9 cells are passed to the Calculate function for processing and the result is
+# is returned and added to a new list array. The resultant slope data is written to
+# a new file.
+#
+
 
 Output = open(outfile, "w") # Open file ready to be overwritten
 for line in dem:    # for each line in the input file
@@ -121,7 +134,13 @@ for line in dem:    # for each line in the input file
 
 Output.close()  # close the output file after all data has been added
 
+#
 # Display the DEM
+# Using the tk gui module to create and display a window that will have 3 options
+# Display original DEM
+# Display new slope image
+# Quit
+#
 
 root = tk.Tk() # Create a new window
 root.wm_title("To the Max! (...imum Gradient...)")  # give the new window a name
