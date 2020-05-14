@@ -96,7 +96,7 @@ for line in dem:    # for each line in the input file
             rowlist.append(0)   # Fill the boundry cell with a zero
         c += 1  # increment the column count
     demslope.append(rowlist)    # append the completed row to the new list
-    Output.write("%s\n" % rowlist[0])   # Write the row contents to the output file
+    Output.write("%s\n" % rowlist)   # Write the row contents to the output file
     r += 1  # increment the row count
     c = 0   # reset the column count
 Output.close()  # close the output file after all data has been added
